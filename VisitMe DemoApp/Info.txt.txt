@@ -1,0 +1,18 @@
+Jezik aplikacije:
+Hrvatski
+
+Naziv aplikacije:
+VisitMe (Demo)
+
+Kratki opis:
+Aplikacija donosi pregled turistièkih sadržaja gradova u Republici Hrvatskoj, 
+pregled slobodnih apartmana, kafiæa, restorana, klubova, znamenitnosti grada. 
+Iznajmljivaèi apartmana se mogu registrirati i dodavati apartmane koji se iznajmljuju.
+
+Kategorija:
+Putovanje i lokano
+
+Kontakt e-mail:
+fijelicic@gmail.com
+
+

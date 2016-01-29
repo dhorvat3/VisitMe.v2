@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">VisitMe</string>
+    <string name="API">http://domotehnika.hr/visitme/</string>
+
+    <string name="label_login">Login</string>
+    <string name="label_username">Username</string>
+    <string name="label_password">Password</string>
+    <string name="label_reg">Registracija</string>
+    <string name="login_success">Uspješna prijava</string>
+    <string name="login_failed">Neuspješna prijava</string>
+    <string name="imePrezime">Ime i prezime</string>
+    <string name="telephoneNumber">Broj telefona</string>
+    <string name="email">E-mail adresa</string>
+    <string name="prihvacamUvjete">Prihvaćam uvjete korištenja</string>
+    <string name="conditions">Uvjeti korištenja</string>
+    <string name="endRegistration">Dovrši registraciju</string>
+    <string name="acceptTerms">Molimo označite da prihvaćate naše uvjete korištenja</string>
+    <string name="fillAll">Molimo unesite sve podatke</string>
+    <string name="succesReg">Uspješno ste se registrirali. Možete se prijaviti!</string>
+    <string name="error">Došlo je do greške. Pokušajte ponovo.</string>
+    <string name="wrongCredentials">Netočni korisnički podaci</string>
+    <string name="dodanApartman">Apartman je uspješno dodan</string>
+</resources>

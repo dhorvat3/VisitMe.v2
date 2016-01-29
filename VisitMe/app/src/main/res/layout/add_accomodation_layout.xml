@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--Naziv-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Naziv"/>
+            <EditText
+                android:id="@+id/addAc_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"/>
+
+            <!--Adresa-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Adresa"/>
+            <EditText
+                android:id="@+id/addAddress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"
+                android:lines="3"
+                android:inputType="textMultiLine"/>
+
+            <!--Grad-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Grad"/>
+            <EditText
+                android:id="@+id/addAc_city"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"/>
+
+            <!--Broj ležaja-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Broj ležaja"/>
+            <EditText
+                android:id="@+id/addAc_bedNum"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"
+                android:inputType="number"/>
+
+            <!--Cijena-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Cijena"/>
+            <EditText
+                android:id="@+id/addAc_price"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"
+                android:inputType="numberDecimal"/>
+
+            <!--Dostupan-->
+            <CheckBox
+                android:id="@+id/addAc_available"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Trenutno dostupan"
+                android:layout_marginTop="5dp"/>
+
+            <!--Dostupan do-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Dostupan do"/>
+            <EditText
+                android:id="@+id/addAc_till"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"
+                android:inputType="date"/>
+
+            <Button
+                android:id="@+id/addAc_save"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Pohrani"
+                android:layout_marginTop="@dimen/button_margin"/>
+            <Button
+                android:id="@+id/addAc_dismiss"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Odustani"
+                android:layout_marginTop="@dimen/button_margin"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

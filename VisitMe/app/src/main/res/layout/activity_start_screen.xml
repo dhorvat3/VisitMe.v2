@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="studnetsproject.air.foi.visitme.StartScreen">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:src="@mipmap/ic_image_placeholder"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp" />
+
+    <Button
+        android:id="@+id/btnHR"
+        android:text="HR"
+        android:layout_marginTop="@dimen/button_margin"
+        android:layout_marginBottom="@dimen/button_margin"
+        android:layout_below="@+id/imgLogo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="buttonClick"/>
+
+    <Button
+        android:id="@+id/btnEN"
+        android:text="EN"
+        android:layout_marginTop="@dimen/button_margin"
+        android:layout_marginBottom="@dimen/button_margin"
+        android:layout_below="@+id/btnHR"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="buttonClick"/>
+
+    <Button
+        android:id="@+id/btnDE"
+        android:text="DE"
+        android:layout_marginTop="@dimen/button_margin"
+        android:layout_marginBottom="@dimen/button_margin"
+        android:layout_below="@+id/btnEN"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="buttonClick"/>
+
+</RelativeLayout>
