@@ -36,9 +36,10 @@ import studentsproject.air.foi.visitme.db.Caffe;
 import studentsproject.air.foi.visitme.db.Caffe_;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 
-public class caffe_bar extends BaseFragment implements LocationListener, DataInterface{
+public class caffe_bar extends BaseFragment implements LocationListener, FragInterface{
 
     private View view;
     private boolean exists = false;
@@ -130,5 +131,10 @@ public class caffe_bar extends BaseFragment implements LocationListener, DataInt
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

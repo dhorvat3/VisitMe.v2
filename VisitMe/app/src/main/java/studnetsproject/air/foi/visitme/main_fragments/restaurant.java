@@ -38,9 +38,10 @@ import studentsproject.air.foi.visitme.db.Restaurant;
 import studentsproject.air.foi.visitme.db.Restaurant_;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 
-public class restaurant extends BaseFragment implements LocationListener, DataInterface{
+public class restaurant extends BaseFragment implements LocationListener, FragInterface{
 
     private View view;
     private boolean exists = false;
@@ -132,5 +133,9 @@ public class restaurant extends BaseFragment implements LocationListener, DataIn
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

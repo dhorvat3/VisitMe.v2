@@ -40,13 +40,14 @@ import studentsproject.air.foi.visitme.db.ApiMethods;
 import studnetsproject.air.foi.visitme.AccountActivity;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 import studnetsproject.air.foi.visitme.main_fragments.account;
 
 
 /**
  * Created by davor on 10.11.2015..
  */
-public class add_accomodation extends BaseFragment {
+public class add_accomodation extends BaseFragment implements FragInterface {
 
     private ApiMethods apiMethods;
     private String uId;
@@ -155,5 +156,9 @@ public class add_accomodation extends BaseFragment {
             free.toggle();
         }
         till.setText("");
+    }
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

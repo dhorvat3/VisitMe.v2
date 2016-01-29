@@ -40,18 +40,16 @@ import studentsproject.air.foi.visitme.db.Sight;
 import studentsproject.air.foi.visitme.db.Sight_;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 
-public class sight extends BaseFragment implements LocationListener, DataInterface{
+public class sight extends BaseFragment implements LocationListener, FragInterface{
 
     private View view;
     private boolean exists = false;
     private GoogleMap map;
 
-    private String apiUrl;
     private ApiMethods apiMethods;
-    private RestAdapter restAdapter;
-    private ListView listView;
 
 
     public sight(){
@@ -137,5 +135,9 @@ public class sight extends BaseFragment implements LocationListener, DataInterfa
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

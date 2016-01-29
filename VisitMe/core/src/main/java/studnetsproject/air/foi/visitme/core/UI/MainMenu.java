@@ -28,7 +28,7 @@ public class MainMenu extends BaseFragment {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
     private ArrayList<String> values = new ArrayList<String>();
-    private ArrayList<BaseFragment> fragments = new ArrayList<BaseFragment>();
+    private ArrayList<FragInterface> fragments = new ArrayList<FragInterface>();
     private String currentFrag;
 
 
@@ -36,9 +36,9 @@ public class MainMenu extends BaseFragment {
      * Metoda koja dohvaća imena fragmenata za prikaz na navigacijskom izborniku
      * @param params BaseFragment objekti
      */
-    public void initFrag(BaseFragment... params){
-        for (BaseFragment param : params){
-            values.add(param.getName());
+    public void initFrag(FragInterface... params){
+        for (FragInterface param : params){
+            values.add(param.getFragment().getName());
             this.fragments.add(param);
         }
     }
@@ -98,8 +98,8 @@ public class MainMenu extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Prebacivanje na odabrani fragment i zatvaranje vav drawera
-                currentFrag = fragments.get(position).getName();
-                switchFragment(fragments.get(position), false, currentFrag);
+                currentFrag = fragments.get(position).getFragment().getName();
+                switchFragment(fragments.get(position).getFragment(), false, currentFrag);
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
@@ -109,9 +109,9 @@ public class MainMenu extends BaseFragment {
      * Postavlja prvi fragment
      */
     public void homeFragment(){
-        currentFrag = fragments.get(0).getName();
+        currentFrag = fragments.get(0).getFragment().getName();
         getActivity().getActionBar().setTitle(currentFrag);
-        switchFragment(fragments.get(0), false, currentFrag);
+        switchFragment(fragments.get(0).getFragment(), false, currentFrag);
     }
 
     @Override

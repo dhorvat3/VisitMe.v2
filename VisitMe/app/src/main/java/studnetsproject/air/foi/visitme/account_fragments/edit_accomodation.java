@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import studnetsproject.air.foi.visitme.R;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 /**
  * Created by Nadja on 28.1.2016..
  */
-public class edit_accomodation extends BaseFragment {
+public class edit_accomodation extends BaseFragment implements FragInterface {
     public edit_accomodation() {
         this._name = "Uredi smještaj";
     }
@@ -22,5 +23,10 @@ public class edit_accomodation extends BaseFragment {
         View view = inflater.inflate(R.layout.main_account_fragment, container, false);
 
         return view;
+    }
+
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

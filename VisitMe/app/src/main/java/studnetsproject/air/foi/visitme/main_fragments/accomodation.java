@@ -29,11 +29,12 @@ import studentsproject.air.foi.visitme.db.ApiMethods;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.adapters.AccomodationAdapter;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 /**
  * Created by davor on 9.11.2015..
  */
-public class accomodation extends BaseFragment implements DataInterface{
+public class accomodation extends BaseFragment implements FragInterface {
     private ApiMethods apiMethods;
     private ListView listView;
 
@@ -127,5 +128,10 @@ public class accomodation extends BaseFragment implements DataInterface{
 
 
         dialog.show();
+    }
+
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

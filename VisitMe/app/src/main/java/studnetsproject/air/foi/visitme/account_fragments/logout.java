@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 
 import studnetsproject.air.foi.visitme.MainActivity;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 /**
  * Created by davor on 10.11.2015..
  */
-public class logout extends BaseFragment {
+public class logout extends BaseFragment implements FragInterface {
 
     public logout(){
         this.setName("Odjava");
@@ -31,5 +32,9 @@ public class logout extends BaseFragment {
         startActivity(i);
 
         return null;
+    }
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }

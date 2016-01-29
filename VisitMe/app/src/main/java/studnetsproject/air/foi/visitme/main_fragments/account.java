@@ -20,11 +20,12 @@ import studnetsproject.air.foi.visitme.AccountActivity;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.RegistrationActivity;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
+import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 /**
  * Created by davor on 9.11.2015..
  */
-public class account extends BaseFragment {
+public class account extends BaseFragment implements FragInterface {
 
     private Button login, reg;
     private EditText user, pass;
@@ -121,5 +122,11 @@ public class account extends BaseFragment {
         }
 
         return logged;
+    }
+
+
+    @Override
+    public BaseFragment getFragment() {
+        return this;
     }
 }
