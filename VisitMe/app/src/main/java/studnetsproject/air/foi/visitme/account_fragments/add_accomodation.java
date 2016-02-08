@@ -37,6 +37,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import studentsproject.air.foi.visitme.db.Apartment_;
 import studentsproject.air.foi.visitme.db.ApiMethods;
+import studentsproject.air.foi.visitme.db.DataBuilder;
+import studentsproject.air.foi.visitme.db.DataInterface;
 import studnetsproject.air.foi.visitme.AccountActivity;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
@@ -47,9 +49,7 @@ import studnetsproject.air.foi.visitme.main_fragments.account;
 /**
  * Created by davor on 10.11.2015..
  */
-public class add_accomodation extends BaseFragment implements FragInterface {
-
-    private ApiMethods apiMethods;
+public class add_accomodation extends BaseFragment implements FragInterface, DataInterface {
     private String uId;
 
     private EditText name;
@@ -63,6 +63,8 @@ public class add_accomodation extends BaseFragment implements FragInterface {
     private Button save;
     private Button cancel;
 
+    private DataBuilder dataBuilder = new DataBuilder(this);
+
     private SharedPreferences sp;
 
     public add_accomodation() {
@@ -72,8 +74,6 @@ public class add_accomodation extends BaseFragment implements FragInterface {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_accomodation_layout, container, false);
-
-        apiMethods = ApiMethods.restAdapter.create(ApiMethods.class);
 
         sp = getActivity().getSharedPreferences("Login", 0);
         uId = sp.getString("uid", null);
@@ -122,18 +122,7 @@ public class add_accomodation extends BaseFragment implements FragInterface {
             apartment.setFree("2");
         }
 
-        apiMethods.setApartment(apartment, new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
-                resetBox();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        dataBuilder.setApartment(apartment);
     }
 
     private void loadBox(){
@@ -160,5 +149,15 @@ public class add_accomodation extends BaseFragment implements FragInterface {
     @Override
     public BaseFragment getFragment() {
         return this;
+    }
+
+    @Override
+    public void buildData(Object data) {
+        if(data != null){
+            Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
+            resetBox();
+        } else {
+            Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

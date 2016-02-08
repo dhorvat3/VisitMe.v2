@@ -34,6 +34,8 @@ import studentsproject.air.foi.visitme.db.Apartment_;
 import studentsproject.air.foi.visitme.db.ApiMethods;
 import studentsproject.air.foi.visitme.db.Caffe;
 import studentsproject.air.foi.visitme.db.Caffe_;
+import studentsproject.air.foi.visitme.db.DataBuilder;
+import studentsproject.air.foi.visitme.db.DataInterface;
 import studentsproject.air.foi.visitme.db.Restaurant;
 import studentsproject.air.foi.visitme.db.Restaurant_;
 import studnetsproject.air.foi.visitme.R;
@@ -41,13 +43,12 @@ import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
 import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 
-public class restaurant extends BaseFragment implements LocationListener, FragInterface{
+public class restaurant extends BaseFragment implements LocationListener, FragInterface, DataInterface{
 
     private View view;
     private boolean exists = false;
     private GoogleMap map;
-
-    private ApiMethods apiMethods;
+    private DataBuilder dataBuilder = new DataBuilder(this);
 
 
     public restaurant(){
@@ -62,8 +63,6 @@ public class restaurant extends BaseFragment implements LocationListener, FragIn
             exists = true;
         }
 
-        apiMethods = ApiMethods.restAdapter.create(ApiMethods.class);
-
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.restaurant);
         map = mf.getMap();
         map.setMyLocationEnabled(true);
@@ -77,36 +76,24 @@ public class restaurant extends BaseFragment implements LocationListener, FragIn
             onLocationChanged(location);
         }
 
-        buildData();
-
+        dataBuilder.getRestaurant();
 
         return view;
     }
-    public void buildData(){
 
-        apiMethods.getRestaurant(new Callback<Restaurant>() {
-            @Override
-            public void success(Restaurant restaurant, Response response) {
+    public void buildData(Object data){
+        Restaurant restaurant = (Restaurant) data;
 
-
-                for (Restaurant_ item : restaurant.getRestaurant()) {
-
-                    map.addMarker(new MarkerOptions()
-
-                            .position(new LatLng(item.getLat(), item.getLng()))
-                            .title(item.getName()));
-
-                }
-
-
-                Toast.makeText(getActivity(), "Restaurants loaded.", Toast.LENGTH_SHORT).show();
+        if(restaurant != null){
+            for (Restaurant_ item : restaurant.getRestaurant()) {
+                map.addMarker(new MarkerOptions()
+                        .position(new LatLng(item.getLat(), item.getLng()))
+                        .title(item.getName()));
             }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
-            }
-        });
+            Toast.makeText(getActivity(), "Restaurants loaded.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

@@ -16,18 +16,18 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import studentsproject.air.foi.visitme.db.ApiMethods;
+import studentsproject.air.foi.visitme.db.DataBuilder;
+import studentsproject.air.foi.visitme.db.DataInterface;
 import studentsproject.air.foi.visitme.db.Owner;
 
 /**
  * Created by Josipa on 21.1.2016..
  */
-public class RegistrationActivity extends Activity {
+public class RegistrationActivity extends Activity implements DataInterface {
 
     private CheckBox mCheckBox;
     private Button button;
     private Context mContext;
-    private RestAdapter restAdapter;
-    private ApiMethods apiMethods;
 
     private EditText lastFirstName;
 
@@ -38,6 +38,7 @@ public class RegistrationActivity extends Activity {
     private EditText username;
 
     private EditText password;
+    private DataBuilder dataBuilder = new DataBuilder(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,6 @@ public class RegistrationActivity extends Activity {
                         password.getText().length() == 0) {
                     Toast.makeText(mContext, getString(R.string.fillAll), Toast.LENGTH_SHORT).show();
                 } else {
-                    apiMethods = ApiMethods.restAdapter.create(ApiMethods.class);
-
                     Owner owner = new Owner();
 
                     owner.setOwn_name(lastFirstName.getText().toString());
@@ -83,19 +82,7 @@ public class RegistrationActivity extends Activity {
                     owner.setMobile(number.getText().toString());
                     owner.setPassword(password.getText().toString());
 
-                    apiMethods.register(owner, new Callback<Response>() {
-                                @Override
-                                public void success(Response response, Response response2) {
-                                    Toast.makeText(getApplicationContext(), "Register success.", Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-
-                                }
-                            }
-
-                    );
+                    dataBuilder.register(owner);
                 }
             }
         });
@@ -109,10 +96,17 @@ public class RegistrationActivity extends Activity {
             case android.R.id.home:
                 finish();
                 break;
-
-
         }
         return super.onMenuItemSelected(featureId, item);
 
+    }
+
+    @Override
+    public void buildData(Object data) {
+        if(data != null) {
+            Toast.makeText(getApplicationContext(), "Register success.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Register failed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -40,4 +40,5 @@ public interface ApiMethods {
     public static final RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint("http://domotehnika.hr/visitme/")
             .build();
+
 }

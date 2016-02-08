@@ -34,18 +34,19 @@ import studentsproject.air.foi.visitme.db.Apartment_;
 import studentsproject.air.foi.visitme.db.ApiMethods;
 import studentsproject.air.foi.visitme.db.Caffe;
 import studentsproject.air.foi.visitme.db.Caffe_;
+import studentsproject.air.foi.visitme.db.DataBuilder;
+import studentsproject.air.foi.visitme.db.DataInterface;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
 import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 
-public class caffe_bar extends BaseFragment implements LocationListener, FragInterface{
+public class caffe_bar extends BaseFragment implements LocationListener, FragInterface, DataInterface{
 
     private View view;
     private boolean exists = false;
     private GoogleMap map;
-
-    private ApiMethods apiMethods;
+    private DataBuilder dataBuilder = new DataBuilder(this);
 
 
     public caffe_bar(){
@@ -60,8 +61,6 @@ public class caffe_bar extends BaseFragment implements LocationListener, FragInt
             exists = true;
         }
 
-        apiMethods = ApiMethods.restAdapter.create(ApiMethods.class);
-
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.caffe);
         map = mf.getMap();
         map.setMyLocationEnabled(true);
@@ -75,36 +74,26 @@ public class caffe_bar extends BaseFragment implements LocationListener, FragInt
             onLocationChanged(location);
         }
 
-        buildData();
+        dataBuilder.getCaffe();
 
 
         return view;
     }
-    public void buildData(){
 
-        apiMethods.getCaffe(new Callback<Caffe>() {
-            @Override
-            public void success(Caffe caffe, Response response) {
+    @Override
+    public void buildData(Object data){
+        Caffe caffe = (Caffe) data;
 
-
-                for (Caffe_ item : caffe.getCaffe()) {
-
-                    map.addMarker(new MarkerOptions()
-
-                            .position(new LatLng(item.getLat(), item.getLng()))
-                            .title(item.getName()));
-
-                }
-
-
-                Toast.makeText(getActivity(), "Caffe loaded.", Toast.LENGTH_SHORT).show();
+        if(caffe != null) {
+            for (Caffe_ item : caffe.getCaffe()) {
+                map.addMarker(new MarkerOptions()
+                        .position(new LatLng(item.getLat(), item.getLng()))
+                        .title(item.getName()));
             }
-
-            @Override
-            public void failure(RetrofitError error) {
+            Toast.makeText(getActivity(), "Caffe loaded.", Toast.LENGTH_SHORT).show();
+            } else {
                 Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
             }
-        });
     }
 
 

@@ -9,23 +9,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.activeandroid.ActiveAndroid;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import studentsproject.air.foi.visitme.db.Apartment;
 import studentsproject.air.foi.visitme.db.Apartment_;
-import studentsproject.air.foi.visitme.db.ApiMethods;
+import studentsproject.air.foi.visitme.db.DataBuilder;
+import studentsproject.air.foi.visitme.db.DataInterface;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.adapters.AccomodationAdapter;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
@@ -34,8 +25,8 @@ import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 /**
  * Created by davor on 9.11.2015..
  */
-public class accomodation extends BaseFragment implements FragInterface {
-    private ApiMethods apiMethods;
+public class accomodation extends BaseFragment implements FragInterface, DataInterface {
+    private DataBuilder dataBuilder = new DataBuilder(this);
     private ListView listView;
 
     //POstavlja ime fragmenta
@@ -47,7 +38,7 @@ public class accomodation extends BaseFragment implements FragInterface {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.accomodation_layout, container, false);
 
-        apiMethods = ApiMethods.restAdapter.create(ApiMethods.class);
+
 
         return view;
     }
@@ -56,45 +47,39 @@ public class accomodation extends BaseFragment implements FragInterface {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        buildData();
+        dataBuilder.getApartments();
 
     }
 
     /**
      * Metoda koja dohvaća podatke i prikazuje ih u list view objektu.
      */
-    public void buildData(){
-        //Poziv metode koja hovaća apartmane
-        apiMethods.getApartments(new Callback<Apartment>() {
-            @Override
-            public void success(Apartment apartment, Response response) {
-                listView = (ListView) getActivity().findViewById(R.id.list_items);
+    public void buildData(Object data){
+        Apartment apartment = (Apartment) data;
 
-                ArrayList<Apartment_> apartments = new ArrayList<Apartment_>();
-                for (Apartment_ item : apartment.getApartment()) {
-                    apartments.add(0, item);
-                }
+        if(apartment != null){
+            listView = (ListView) getActivity().findViewById(R.id.list_items);
 
-                AccomodationAdapter adapter = new AccomodationAdapter(getActivity(), apartments);
-                listView.setAdapter(adapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Apartment_ apartment = (Apartment_) parent.getItemAtPosition(position);
-
-                        showDetails(apartment);
-                    }
-                });
-
-                Toast.makeText(getActivity(), "Apartments loaded.", Toast.LENGTH_SHORT).show();
+            ArrayList<Apartment_> apartments = new ArrayList<Apartment_>();
+            for (Apartment_ item : apartment.getApartment()) {
+                apartments.add(0, item);
             }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
-            }
-        });
+            AccomodationAdapter adapter = new AccomodationAdapter(getActivity(), apartments);
+            listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Apartment_ apartment = (Apartment_) parent.getItemAtPosition(position);
+                    showDetails(apartment);
+                }});
+
+            Toast.makeText(getActivity(), "Apartments loaded.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void showDetails(Apartment_ apartment){

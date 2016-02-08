@@ -15,6 +15,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import studentsproject.air.foi.visitme.db.ApiMethods;
+import studentsproject.air.foi.visitme.db.DataBuilder;
+import studentsproject.air.foi.visitme.db.DataInterface;
 import studentsproject.air.foi.visitme.db.Owner;
 import studnetsproject.air.foi.visitme.AccountActivity;
 import studnetsproject.air.foi.visitme.R;
@@ -25,10 +27,11 @@ import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 /**
  * Created by davor on 9.11.2015..
  */
-public class account extends BaseFragment implements FragInterface {
+public class account extends BaseFragment implements FragInterface, DataInterface {
 
     private Button login, reg;
     private EditText user, pass;
+    private DataBuilder dataBuilder = new DataBuilder(this);
 
     //Postavlja ime fragmenta, za prikaz u glavnom meniju.
     public account(){
@@ -66,8 +69,6 @@ public class account extends BaseFragment implements FragInterface {
         reg = (Button) getActivity().findViewById(R.id.reg);
         login = (Button) getActivity().findViewById(R.id.login);
         reg = (Button) getActivity().findViewById(R.id.reg);
-        user = (EditText) getActivity().findViewById(R.id.username);
-        pass = (EditText) getActivity().findViewById(R.id.password);
 
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,29 +88,8 @@ public class account extends BaseFragment implements FragInterface {
                 user = (EditText) getActivity().findViewById(R.id.username);
                 pass = (EditText) getActivity().findViewById(R.id.password);
 
-                ApiMethods apiMethods = ApiMethods.restAdapter.create(ApiMethods.class);
-
-                apiMethods.login(user.getText().toString(), pass.getText().toString(), new Callback<Owner>() {
-                    @Override
-                    public void success(Owner owner, Response response) {
-                        Toast.makeText(getActivity(), "Sucessfull login.", Toast.LENGTH_SHORT).show();
-
-                        SharedPreferences sp = getActivity().getSharedPreferences("Login", 0);
-                        SharedPreferences.Editor ed = sp.edit();
-                        ed.putString("uid", String.valueOf(owner.getId_owner()));
-                        ed.putString("uname", owner.getOwn_name());
-                        ed.commit();
-
-                        Intent i = new Intent(getActivity(), AccountActivity.class);
-                        startActivity(i);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Toast.makeText(getActivity(), "Wrong credentials.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                dataBuilder.login(user.getText().toString(), pass.getText().toString());
+                }
         });
     }
 
@@ -128,5 +108,25 @@ public class account extends BaseFragment implements FragInterface {
     @Override
     public BaseFragment getFragment() {
         return this;
+    }
+
+    @Override
+    public void buildData(Object data) {
+        Owner owner = (Owner) data;
+
+        if(owner.getId_owner() != 0){
+            Toast.makeText(getActivity(), "Sucessfull login.", Toast.LENGTH_SHORT).show();
+
+            SharedPreferences sp = getActivity().getSharedPreferences("Login", 0);
+            SharedPreferences.Editor ed = sp.edit();
+            ed.putString("uid", String.valueOf(owner.getId_owner()));
+            ed.putString("uname", owner.getOwn_name());
+            ed.commit();
+
+            Intent i = new Intent(getActivity(), AccountActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(getActivity(), "Wrong credentials.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

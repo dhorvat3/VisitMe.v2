@@ -17,24 +17,21 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import studentsproject.air.foi.visitme.db.Apartment;
 import studentsproject.air.foi.visitme.db.Apartment_;
-import studentsproject.air.foi.visitme.db.ApiMethods;
+import studentsproject.air.foi.visitme.db.DataBuilder;
+import studentsproject.air.foi.visitme.db.DataInterface;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
 import studnetsproject.air.foi.visitme.core.UI.FragInterface;
 
 
-public class map extends BaseFragment implements LocationListener, FragInterface{
+public class map extends BaseFragment implements LocationListener, FragInterface, DataInterface{
 
     private View view;
     private boolean exists = false;
     private GoogleMap map;
-
-    private ApiMethods apiMethods;
+    private DataBuilder dataBuilder = new DataBuilder(this);
 
 
     public map(){
@@ -49,8 +46,6 @@ public class map extends BaseFragment implements LocationListener, FragInterface
             exists = true;
         }
 
-        apiMethods = ApiMethods.restAdapter.create(ApiMethods.class);
-
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.maps);
         map = mf.getMap();
         map.setMyLocationEnabled(true);
@@ -64,46 +59,33 @@ public class map extends BaseFragment implements LocationListener, FragInterface
             onLocationChanged(location);
         }
 
-        buildData();
 
+        dataBuilder.getApartments();
 
         return view;
     }
-    public void buildData(){
 
-        apiMethods.getApartments(new Callback<Apartment>() {
-            @Override
-            public void success(Apartment apartment, Response response) {
+    @Override
+    public void buildData(Object data){
+        Apartment apartment = (Apartment) data;
 
+        if(apartment != null){
+            for (Apartment_ item : apartment.getApartment()) {
 
+                String details = String.format(item.getAddress() + " " + item.getMobile());
 
-                for (Apartment_ item : apartment.getApartment()) {
+                map.addMarker(
+                        new MarkerOptions()
+                                .position(new LatLng(item.getLat(), item.getLng()))
+                                .title(item.getApartmentName())
 
-
-
-                    String details = String.format(item.getAddress()+" "+item.getMobile());
-
-                    map.addMarker(
-                            new MarkerOptions()
-                                    .position(new LatLng(item.getLat(), item.getLng()))
-                                    .title(item.getApartmentName())
-
-                                    .snippet(details)
-
-                    );
-
-
-                }
-
-
-                Toast.makeText(getActivity(), "Apartments loaded.", Toast.LENGTH_SHORT).show();
+                                .snippet(details)
+                );
             }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), "Failed.", Toast.LENGTH_SHORT).show();
-            }
-        });
+            Toast.makeText(getActivity(), "Apartments loaded.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Failed to load apartments.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
