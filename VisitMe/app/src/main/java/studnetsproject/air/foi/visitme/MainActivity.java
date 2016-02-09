@@ -10,10 +10,7 @@ import android.os.Bundle;
 import studnetsproject.air.foi.visitme.core.UI.MainMenu;
 import studnetsproject.air.foi.visitme.main_fragments.accomodation;
 import studnetsproject.air.foi.visitme.main_fragments.account;
-import studnetsproject.air.foi.visitme.main_fragments.caffe_bar;
 import studnetsproject.air.foi.visitme.main_fragments.map;
-import studnetsproject.air.foi.visitme.main_fragments.restaurant;
-import studnetsproject.air.foi.visitme.main_fragments.sight;
 
 public class MainActivity extends Activity {
     //Instanciranje menu Fragmenta
@@ -31,9 +28,6 @@ public class MainActivity extends Activity {
         //Dodavanje fragmenata u menu
         menu.initFrag(new map(),
                 new accomodation(),
-                new restaurant(),
-                new caffe_bar(),
-                new sight(),
                 new account());
 
         super.onCreate(savedInstanceState);

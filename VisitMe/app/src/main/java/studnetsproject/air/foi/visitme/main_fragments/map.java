@@ -6,32 +6,36 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import studentsproject.air.foi.visitme.db.Apartment;
-import studentsproject.air.foi.visitme.db.Apartment_;
-import studentsproject.air.foi.visitme.db.DataBuilder;
 import studentsproject.air.foi.visitme.db.DataInterface;
 import studnetsproject.air.foi.visitme.R;
 import studnetsproject.air.foi.visitme.core.UI.BaseFragment;
 import studnetsproject.air.foi.visitme.core.UI.FragInterface;
+import studnetsproject.air.foi.visitme.map_classes.Apartments;
+import studnetsproject.air.foi.visitme.map_classes.Caffe_bars;
+import studnetsproject.air.foi.visitme.map_classes.Restaurants;
+import studnetsproject.air.foi.visitme.map_classes.Sights;
 
 
-public class map extends BaseFragment implements LocationListener, FragInterface, DataInterface{
+public class map extends BaseFragment implements LocationListener, FragInterface, AdapterView.OnItemSelectedListener{
 
     private View view;
     private boolean exists = false;
     private GoogleMap map;
-    private DataBuilder dataBuilder = new DataBuilder(this);
+    private Spinner spinner;
+    private DataInterface marker;
 
 
     public map(){
@@ -59,35 +63,21 @@ public class map extends BaseFragment implements LocationListener, FragInterface
             onLocationChanged(location);
         }
 
-
-        dataBuilder.getApartments();
+        //apartments = new Apartments(getActivity(), map);
 
         return view;
     }
 
     @Override
-    public void buildData(Object data){
-        Apartment apartment = (Apartment) data;
+    public void onViewCreated(View view, @Nullable Bundle savedInstancestate){
+        super.onViewCreated(view, savedInstancestate);
 
-        if(apartment != null){
-            for (Apartment_ item : apartment.getApartment()) {
-
-                String details = String.format(item.getAddress() + " " + item.getMobile());
-
-                map.addMarker(
-                        new MarkerOptions()
-                                .position(new LatLng(item.getLat(), item.getLng()))
-                                .title(item.getApartmentName())
-
-                                .snippet(details)
-                );
-            }
-            Toast.makeText(getActivity(), "Apartments loaded.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity(), "Failed to load apartments.", Toast.LENGTH_SHORT).show();
-        }
+        spinner = (Spinner) getActivity().findViewById(R.id.map_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.map_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -117,5 +107,31 @@ public class map extends BaseFragment implements LocationListener, FragInterface
     @Override
     public BaseFragment getFragment() {
         return this;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        map.clear();
+        switch(position){
+            case 0:
+                marker = new Apartments(getActivity(), map);
+                break;
+            case 1:
+                marker = new Caffe_bars(getActivity(), map);
+                break;
+            case 2:
+                marker = new Restaurants(getActivity(), map);
+                break;
+            case 3:
+                marker = new Sights(getActivity(), map);
+                break;
+            default:
+                marker = new Apartments(getActivity(), map);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        //dkljsfnbhlahf
     }
 }

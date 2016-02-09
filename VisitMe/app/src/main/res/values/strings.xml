@@ -20,4 +20,11 @@
     <string name="error">Došlo je do greške. Pokušajte ponovo.</string>
     <string name="wrongCredentials">Netočni korisnički podaci</string>
     <string name="dodanApartman">Apartman je uspješno dodan</string>
+
+    <string-array name="map_array">
+        <item>Apartments</item>
+        <item>Caffe bars</item>
+        <item>Restaurants</item>
+        <item>Sights</item>
+    </string-array>
 </resources>
